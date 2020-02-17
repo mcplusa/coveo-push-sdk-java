@@ -1,0 +1,30 @@
+plugins {
+    id 'java-library'
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+group = "com.mcplusa.coveo"
+version = "0.0.1"
+
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+
+dependencies {
+    api 'com.google.code.gson:gson:2.8.6'
+    api 'org.slf4j:slf4j-api:1.7.30'
+    
+    compile 'org.apache.httpcomponents:httpclient:4.5.11'
+    compile 'org.apache.httpcomponents:httpcore:4.4.13'
+
+    // This dependency is used internally, and not exposed to consumers on their own compile classpath.
+    implementation 'com.google.guava:guava:28.0-jre'
+
+    // Test
+    testCompile 'com.github.tomakehurst:wiremock-jre8:2.26.0'
+    testImplementation 'junit:junit:4.12'
+    testRuntimeOnly 'org.slf4j:slf4j-simple:1.7.25'
+}
