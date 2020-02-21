@@ -4,11 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class Document {
+
+    private final static DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     private final String documentId;
     private String title;
@@ -16,6 +20,8 @@ public class Document {
     private String fileExtension;
     private String parentId;
     private Long orderingId;
+    private LocalDateTime date;
+    private LocalDateTime createddate;
     private CompressionType compressionType;
     private Map<String, Object> metadata = new HashMap<>();
     private List<PermissionsSetsModel> permissions;
@@ -79,6 +85,22 @@ public class Document {
         this.orderingId = orderingId;
     }
 
+    public LocalDateTime getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateTime date) {
+        this.date = date;
+    }
+
+    public LocalDateTime getCreateddate() {
+        return createddate;
+    }
+
+    public void setCreateddate(LocalDateTime createddate) {
+        this.createddate = createddate;
+    }
+
     public CompressionType getCompressionType() {
         return compressionType;
     }
@@ -126,6 +148,14 @@ public class Document {
         docJson.addProperty("parentId", parentId);
         docJson.add("permissions", gson.toJsonTree(permissions));
 
+        if (date != null) {
+            docJson.addProperty("date", DATE_FMT.format(date));
+        }
+
+        if (date != null) {
+            docJson.addProperty("createddate", DATE_FMT.format(createddate));
+        }
+
         if (compressionType != null) {
             docJson.addProperty("compressionType", compressionType.toString());
         }
@@ -136,6 +166,8 @@ public class Document {
 
             if (value instanceof Number) {
                 docJson.addProperty(key, (Number) value);
+            } else if (value instanceof LocalDateTime) {
+                docJson.addProperty(key, DATE_FMT.format((LocalDateTime) value));
             } else if (value instanceof List<?>) {
                 JsonArray list = (JsonArray) gson.toJsonTree(value, new TypeToken<List>() {
                 }.getType());
