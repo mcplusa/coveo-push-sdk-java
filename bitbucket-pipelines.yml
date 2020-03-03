@@ -1,0 +1,9 @@
+image: gradle:6.2.1-jdk8
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - gradle
+        script:
+          - gradle build
