@@ -8,6 +8,7 @@ import org.apache.http.util.EntityUtils;
 
 public class CoveoResponseException extends IOException {
 
+    private static final long serialVersionUID = -852792425280766394L;
     private final CoveoResponse response;
 
     public CoveoResponseException(CoveoResponse response) throws IOException {

@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class Document {
 
-    private final static DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    private static final DateTimeFormatter DATE_FMT = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     private final String documentId;
     private String title;
@@ -163,6 +163,10 @@ public class Document {
         for (Map.Entry<String, Object> entry : metadata.entrySet()) {
             String key = entry.getKey();
             Object value = entry.getValue();
+
+            if (value == null) {
+                continue;
+            }
 
             if (value instanceof Number) {
                 docJson.addProperty(key, (Number) value);
