@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
  */
 public class CoveoFactory implements Closeable {
 
-    final static Logger log = LoggerFactory.getLogger(CoveoFactory.class);
+    static final Logger log = LoggerFactory.getLogger(CoveoFactory.class);
 
     /**
      * The target environment
@@ -61,20 +61,15 @@ public class CoveoFactory implements Closeable {
      * @return instance of {@link CoveoPushClient}
      */
     public CoveoPushClient newPushClient(String accessToken, String orgId, String sourceId) {
-        CoveoPushClient client = new CoveoPushClient(httpClient, accessToken, orgId, sourceId, environment);
-
-        return client;
+        return new CoveoPushClient(httpClient, accessToken, orgId, sourceId, environment);
     }
 
     /**
      * Setup default {@link CloseableHttpClient}
      */
     private CloseableHttpClient createHttpClient() {
-        Header acceptHeader = new BasicHeader(HttpHeaders.ACCEPT, "application/json");
-        Header contentTypeHeader = new BasicHeader(HttpHeaders.CONTENT_TYPE, "application/json");
-
         SSLContext sslcontext = SSLContexts.createSystemDefault();
-        HttpClientBuilder httpClientBuilder = HttpClients.custom().setSSLContext(sslcontext).setDefaultHeaders(Arrays.asList(acceptHeader, contentTypeHeader));
+        HttpClientBuilder httpClientBuilder = HttpClients.custom().setSSLContext(sslcontext);
         return httpClientBuilder.build();
     }
 
